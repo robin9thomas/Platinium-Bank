@@ -1,9 +1,8 @@
 import { User } from "./users.entity"
 
-
-export const characterProviders = [
+export const userProviders = [
     {
         provide: 'USER_REPOSITORY',
-        useValue: User
+        useValue: User,
     }
 ]

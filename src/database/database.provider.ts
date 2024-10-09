@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import { User } from 'src/users/users.entity';
 
 export const databaseProviders = [
   {
@@ -7,11 +8,12 @@ export const databaseProviders = [
       const sequelize = new Sequelize({
         dialect: 'mysql',
         host: 'localhost',
-        port: 8889,
+        port:  3306,
         username: 'root',
         password: 'password',
         database: 'Platinium-Bank',
       });
+      sequelize.addModels([User],);
       await sequelize.sync();
       return sequelize;
     },
