@@ -5,29 +5,26 @@ import {
     Model,
     PrimaryKey,
     DataType,
-  } from 'sequelize-typescript';
+} from 'sequelize-typescript';
 
-  
-
-  @Table
-  export class Cards extends Model {
+@Table
+export class Card extends Model {
     @PrimaryKey
     @Column
     id: number;
-  
-    @Column(DataType.NUMBER())
+
+    @Column(DataType.INTEGER)
     idAccount: number;
-  
-    @Column(DataType.NUMBER())
+
+    @Column(DataType.STRING)
     cardNumber: string;
-  
-    @Column(DataType.NUMBER())
+
+    @Column(DataType.INTEGER)
     ccv: number;
 
-    @Column(DataType.NUMBER())
+    @Column(DataType.INTEGER)
     pinCode: number;
 
     @Column(DataType.STRING)
     expirationDate: string;
-  }
-  
+}
