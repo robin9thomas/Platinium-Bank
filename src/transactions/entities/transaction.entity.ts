@@ -1,44 +1,39 @@
-/* eslint-disable prettier/prettier */
 import {
-    Table,
-    Column,
-    Model,
-    PrimaryKey,
-    DataType,
-  } from 'sequelize-typescript';
-  
-  export enum TransactionType {
-    DEPOSIT = 'deposit',
-    WITHDRAWAL = 'withdrawal',
-    TRANSFER = 'transfer',
-    CHECK_DEPOSIT = 'check_deposit',
-  }
+  Table,
+  Column,
+  Model,
+  PrimaryKey,
+  DataType,
+} from 'sequelize-typescript';
 
-  @Table
-  export class Transactions extends Model {
-    @PrimaryKey
-    @Column
-    id: number;
+export enum TransactionType {
+  DEPOSIT = 'deposit',
+  WITHDRAWAL = 'withdrawal',
+  TRANSFER = 'transfer',
+  CHECK_DEPOSIT = 'check_deposit',
+}
 
-    @Column(DataType.DECIMAL())
-    transactionAmount: string;
-  
-    @Column({
-        type: DataType.NUMBER(),
-        allowNull: true,}
-    )
-    idRecipent: number;
-  
-    @Column({
-        type: DataType.NUMBER(),
-        allowNull: true,}
-    )
-    idDonor: number;
-  
-    @Column({
-        type : DataType.STRING(255),
-        allowNull : true,
-    })
-    reason: string;
-  }
-  
+@Table
+export class Transaction extends Model {
+  @PrimaryKey
+  @Column
+  id: number;
+
+  @Column(DataType.DECIMAL(10, 2))
+  transactionAmount: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  idRecipent: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  idDonor: number;
+
+  @Column(DataType.STRING)
+  reason: string;
+}
