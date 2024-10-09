@@ -46,6 +46,11 @@ export class UsersController {
     }
   }
 
+  @Get('email/:email') // Route pour récupérer l'utilisateur par email
+  async findByEmail(@Param('email') email: string): Promise<IUser | null> {
+    return this.usersService.findByEmail(email);
+  }
+
   // 5. GET /users/:id/accounts
 //   @Get(':id/accounts')
 //   async getUserAccounts(@Param('id', ParseIntPipe) id: number) {
