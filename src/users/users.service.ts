@@ -1,59 +1,39 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { User } from './users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import * as bcrypt from 'bcrypt';
-import { User } from './users.entity';
+// import { Account } from '../accounts/account.model';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('USER_REPOSITORY')
-    private userModel: typeof User,
+    @Inject('USER_REPOSITORY') private readonly userRepository: typeof User,
   ) {}
 
-  // Créer un utilisateur avec un mot de passe hashé
+  async findOne(id: number): Promise<User> {
+    return this.userRepository.findByPk(id);
+  }
+
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
-
-    return this.userModel.create({
-      ...createUserDto,
-      password: hashedPassword,
-    });
+    return this.userRepository.create({...createUserDto});
   }
 
-  // Récupérer tous les utilisateurs
-  findAll(): Promise<User[]> {
-    return this.userModel.findAll();
-  }
-
-  // Récupérer un utilisateur par ID
-  findOne(id: number): Promise<User> {
-    return this.userModel.findByPk(id);
-  }
-
-  // Mettre à jour un utilisateur
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    // Si le mot de passe est modifié, on le re-hashe
-    if (updateUserDto.password) {
-      const salt = await bcrypt.genSalt();
-      updateUserDto.password = await bcrypt.hash(updateUserDto.password, salt);
-    }
-
-    await user.update(updateUserDto);
-    return user;
+    if (!user) return null;
+    return user.update(updateUserDto);
   }
 
-  // Supprimer un utilisateur
-  async remove(id: number): Promise<void> {
+  async delete(id: number): Promise<boolean> {
     const user = await this.findOne(id);
-    if (user) {
-      await user.destroy();
-    }
+    if (!user) return false;
+    await user.destroy();
+    return true;
   }
+
+//   async getUserAccounts(userId: number): Promise<Account[]> {
+//     const user = await this.findOne(userId);
+//     if (!user) return [];
+//     return user.$get('accounts'); // Méthode Sequelize pour obtenir les comptes associés à un utilisateur
+//   }
 }
