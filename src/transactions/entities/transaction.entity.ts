@@ -15,7 +15,7 @@ import {
   }
 
   @Table
-  export class Users extends Model {
+  export class Transactions extends Model {
     @PrimaryKey
     @Column
     id: number;

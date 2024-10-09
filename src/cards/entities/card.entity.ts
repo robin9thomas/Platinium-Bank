@@ -10,7 +10,7 @@ import {
   
 
   @Table
-  export class Users extends Model {
+  export class Cards extends Model {
     @PrimaryKey
     @Column
     id: number;
