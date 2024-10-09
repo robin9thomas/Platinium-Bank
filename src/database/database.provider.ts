@@ -1,4 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
+import { Account } from 'src/account/entities/account.entity';
+import { Cards } from 'src/cards/entities/card.entity';
+import { Transactions } from 'src/transactions/entities/transaction.entity';
 import { User } from 'src/users/users.entity';
 
 export const databaseProviders = [
@@ -13,7 +16,7 @@ export const databaseProviders = [
         password: 'password',
         database: 'Platinium-Bank',
       });
-      sequelize.addModels([User],);
+      sequelize.addModels([User, Account, Cards, Transactions],);
       await sequelize.sync();
       return sequelize;
     },
